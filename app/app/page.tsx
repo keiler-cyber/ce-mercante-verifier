@@ -286,7 +286,7 @@ export default function AppPage() {
               </>
             )}
             <div className="flex items-center gap-2 text-xs text-gray-400">
-              <span>{user.email?.split('@')[0]}</span>
+              <span>{user.email.split('@')[0]}</span>
               <button
                 onClick={async () => { await logout(); router.push('/'); }}
                 className="flex items-center gap-1 hover:text-red-500 transition"

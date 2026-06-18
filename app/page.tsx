@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
 import { useAuth } from '@/lib/auth-context';
 import { AlertCircle, Eye, EyeOff, ArrowRight, Loader2, Shield } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, login, signup, resetPassword } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,14 +28,10 @@ export default function LoginPage() {
     setLoading(true);
     try {
       if (!email.endsWith('@brasporto.com')) throw new Error('Apenas emails @brasporto.com são permitidos');
-      await sendPasswordResetEmail(auth, email);
+      await resetPassword(email);
       setResetSent(true);
     } catch (err: any) {
-      const msgs: Record<string, string> = {
-        'auth/user-not-found': 'Email não encontrado',
-        'auth/too-many-requests': 'Muitas tentativas. Tente mais tarde',
-      };
-      setError(msgs[err.code] || err.message);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -48,23 +42,14 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      if (!email.endsWith('@brasporto.com')) throw new Error('Apenas emails @brasporto.com são permitidos');
       if (isSignup) {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await signup(email, password);
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        await login(email, password);
       }
       router.push('/app');
     } catch (err: any) {
-      const msgs: Record<string, string> = {
-        'auth/email-already-in-use': 'Este email já está registrado',
-        'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres',
-        'auth/user-not-found': 'Email não encontrado',
-        'auth/wrong-password': 'Senha incorreta',
-        'auth/invalid-credential': 'Email ou senha incorretos',
-        'auth/too-many-requests': 'Muitas tentativas. Tente mais tarde',
-      };
-      setError(msgs[err.code] || err.message);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -122,7 +107,6 @@ export default function LoginPage() {
       <div className="flex-1 lg:max-w-[480px] flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-sm">
 
-          {/* Logo mobile */}
           <div className="lg:hidden flex flex-col items-center mb-8">
             <p className="text-2xl font-semibold tracking-widest text-[#003d4d]">BRASPORTO</p>
             <p className="text-[10px] tracking-[0.2em] text-gray-400 uppercase">International Logistics</p>
@@ -141,7 +125,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Recuperação de senha */}
           {isReset && (
             <div className="space-y-5">
               {resetSent ? (
@@ -188,7 +171,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Login / Cadastro */}
           {!isReset && (
             <form onSubmit={handleAuth} className="space-y-5">
               <div>
