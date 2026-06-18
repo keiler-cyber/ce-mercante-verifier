@@ -260,44 +260,59 @@ export default function AppPage() {
           zIndex: 0,
         }}
       />
-      <header className="sticky top-0 z-10 bg-white shadow-md">
-        <div className="max-w-5xl mx-auto px-8 py-5 flex items-center gap-6">
-          <img src="/brasporto-logo.png" alt="Brasporto" className="h-40 w-auto" />
-          <div className="w-px h-28 bg-gray-200" />
-          <div>
-            <p className="text-lg font-medium text-[#003d4d] tracking-wide">CE Mercante vs BL</p>
-            <p className="text-xs text-[#4A9BAA] mt-0.5">Verificador de Conformidade Documental</p>
+      <header className="sticky top-0 z-10 shadow-lg" style={{ background: '#002b38' }}>
+        <div className="max-w-5xl mx-auto px-8 py-3.5 flex items-center gap-5">
+          <img src="/brasporto-logo.png" alt="Brasporto"
+            className="h-11 w-auto object-contain flex-shrink-0"
+            style={{ filter: 'brightness(0) invert(1)', maxWidth: '180px' }}
+          />
+          <div className="w-px h-8 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.2)' }} />
+          <div className="flex-shrink-0">
+            <p className="text-sm font-semibold text-white leading-tight">CE Mercante vs BL</p>
+            <p className="text-[11px]" style={{ color: '#7dd3e8' }}>Verificador de Conformidade Documental</p>
           </div>
-          <span className="text-xs font-mono text-[#4A9BAA] ml-1 select-none">v{VERSION}</span>
 
           <div className="ml-auto flex items-center gap-4">
+            <span className="text-xs font-mono select-none" style={{ color: 'rgba(255,255,255,0.4)' }}>v{VERSION}</span>
             {step === 'results' && result && (
               <>
-                <button onClick={handleReset} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700 transition">
+                <button onClick={handleReset}
+                  className="flex items-center gap-1.5 text-xs transition"
+                  style={{ color: 'rgba(255,255,255,0.6)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'white'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.6)'; }}
+                >
                   <RotateCcw className="w-3.5 h-3.5" /> Nova Análise
                 </button>
                 <PDFDownloadLink
                   document={<ReportPDF result={result} ceFileName={ceFileNames} blFileName={blFile?.name ?? ''} />}
                   fileName={pdfFileName}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-[#003d4d] hover:bg-[#004d60] text-white rounded-lg text-xs font-medium transition"
+                  className="flex items-center gap-1.5 px-4 py-2 bg-[#4A9BAA] hover:bg-[#3d8594] text-white rounded-lg text-xs font-medium transition"
                 >
                   {({ loading: l }) => l ? 'Gerando...' : <><Download className="w-3.5 h-3.5" /> Baixar PDF</>}
                 </PDFDownloadLink>
               </>
             )}
-            <div className="flex items-center gap-2 text-xs text-gray-400">
-              <span>{user.email.split('@')[0]}</span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-semibold"
+                style={{ background: '#4A9BAA' }}>
+                {user.email.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>{user.email.split('@')[0]}</span>
               <button
                 onClick={async () => { await logout(); router.push('/'); }}
-                className="flex items-center gap-1 hover:text-red-500 transition"
                 title="Sair"
+                className="transition"
+                style={{ color: 'rgba(255,255,255,0.4)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#f87171'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.4)'; }}
               >
-                <LogOut className="w-3.5 h-3.5" />
+                <LogOut className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
-        <div className="h-1 bg-gradient-to-r from-[#003d4d] via-[#4A9BAA] to-[#003d4d]" />
+        <div className="h-0.5" style={{ background: 'linear-gradient(90deg,rgba(74,155,170,0.3),#4A9BAA,rgba(74,155,170,0.3))' }} />
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-8 space-y-6 relative z-10">
