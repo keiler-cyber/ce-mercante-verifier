@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY!;
+const API_KEY = process.env.FIREBASE_API_KEY || process.env.NEXT_PUBLIC_FIREBASE_API_KEY!;
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       'WEAK_PASSWORD': 'A senha deve ter pelo menos 6 caracteres',
     };
     const code: string = data.error?.message ?? 'UNKNOWN';
-    return NextResponse.json({ error: msg[code] ?? 'Erro ao criar conta' }, { status: 400 });
+    return NextResponse.json({ error: msg[code] ?? data.error?.message ?? 'Erro ao criar conta' }, { status: 400 });
   }
 
   const response = NextResponse.json({ email: data.email });

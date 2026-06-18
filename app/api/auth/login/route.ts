@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY!;
+const API_KEY = process.env.FIREBASE_API_KEY || process.env.NEXT_PUBLIC_FIREBASE_API_KEY!;
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       'TOO_MANY_ATTEMPTS_TRY_LATER': 'Muitas tentativas. Tente mais tarde',
     };
     const code: string = data.error?.message ?? 'UNKNOWN';
-    return NextResponse.json({ error: msg[code] ?? 'Credenciais inválidas' }, { status: 401 });
+    return NextResponse.json({ error: msg[code] ?? data.error?.message ?? 'Credenciais inválidas' }, { status: 401 });
   }
 
   const response = NextResponse.json({ email: data.email });

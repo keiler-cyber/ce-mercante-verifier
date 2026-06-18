@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY!;
+const API_KEY = process.env.FIREBASE_API_KEY || process.env.NEXT_PUBLIC_FIREBASE_API_KEY!;
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get('session')?.value;
