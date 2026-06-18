@@ -260,7 +260,7 @@ export default function AppPage() {
           zIndex: 0,
         }}
       />
-      <header className="sticky top-0 z-10 shadow-lg" style={{ background: '#002b38' }}>
+      <header className="sticky top-0 z-50 shadow-lg" style={{ background: '#002b38' }}>
         <div className="max-w-5xl mx-auto px-8 py-3.5 flex items-center gap-5">
           <img src="/brasporto-logo.png" alt="Brasporto"
             className="h-16 w-auto object-contain flex-shrink-0"
