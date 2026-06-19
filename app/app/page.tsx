@@ -67,15 +67,15 @@ function FileDrop({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center">
-            <FileText className="w-5 h-5 text-[#4A9BAA]" />
+        <div className="flex flex-col items-center gap-1.5">
+          <div className="w-8 h-8 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center">
+            <FileText className="w-4 h-4 text-[#4A9BAA]" />
           </div>
           <p className="text-xs font-medium text-gray-700">
             {label}{required && <span className="text-red-500 ml-0.5">*</span>}
           </p>
           <p className="text-[10px] text-gray-400">{sublabel}</p>
-          <span className="mt-1 px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium">Selecionar PDF</span>
+          <span className="mt-0.5 px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium">Selecionar PDF</span>
         </div>
       )}
     </div>
