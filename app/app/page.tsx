@@ -67,15 +67,17 @@ function FileDrop({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-1.5">
-          <div className="w-8 h-8 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center flex-shrink-0">
             <FileText className="w-4 h-4 text-[#4A9BAA]" />
           </div>
-          <p className="text-xs font-medium text-gray-700">
-            {label}{required && <span className="text-red-500 ml-0.5">*</span>}
-          </p>
-          <p className="text-[10px] text-gray-400">{sublabel}</p>
-          <span className="mt-0.5 px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium">Selecionar PDF</span>
+          <div className="flex-1 text-left min-w-0">
+            <p className="text-xs font-medium text-gray-700">
+              {label}{required && <span className="text-red-500 ml-0.5">*</span>}
+            </p>
+            <p className="text-[10px] text-gray-400">{sublabel}</p>
+          </div>
+          <span className="px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium flex-shrink-0">Selecionar PDF</span>
         </div>
       )}
     </div>
@@ -129,15 +131,17 @@ function MultiFileDrop({
         <input id={inputId} type="file" accept=".pdf" multiple className="hidden"
           onChange={e => { Array.from(e.target.files ?? []).forEach(onAdd); e.target.value = ''; }}
         />
-        <div className="flex flex-col items-center gap-1.5">
-          <div className="w-8 h-8 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center flex-shrink-0">
             <FileText className="w-4 h-4 text-[#4A9BAA]" />
           </div>
-          <p className="text-xs font-medium text-gray-700">
-            {files.length > 0 ? '+ Adicionar outro CE Item' : label}
-          </p>
-          <p className="text-[10px] text-gray-400">{sublabel}</p>
-          <span className="mt-0.5 px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium">Selecionar PDF</span>
+          <div className="flex-1 text-left min-w-0">
+            <p className="text-xs font-medium text-gray-700">
+              {files.length > 0 ? '+ Adicionar outro CE Item' : label}
+            </p>
+            <p className="text-[10px] text-gray-400">{sublabel}</p>
+          </div>
+          <span className="px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium flex-shrink-0">Selecionar PDF</span>
         </div>
       </div>
     </div>
