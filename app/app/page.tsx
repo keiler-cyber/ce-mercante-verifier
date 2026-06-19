@@ -67,17 +67,15 @@ function FileDrop({
           </div>
         </div>
       ) : (
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center flex-shrink-0">
-            <FileText className="w-4 h-4 text-[#4A9BAA]" />
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-10 h-10 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center">
+            <FileText className="w-5 h-5 text-[#4A9BAA]" />
           </div>
-          <div className="flex-1 text-left min-w-0">
-            <p className="text-xs font-medium text-gray-700">
-              {label}{required && <span className="text-red-500 ml-0.5">*</span>}
-            </p>
-            <p className="text-[10px] text-gray-400">{sublabel}</p>
-          </div>
-          <span className="px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium flex-shrink-0">Selecionar PDF</span>
+          <p className="text-xs font-medium text-gray-700 text-center">
+            {label}{required && <span className="text-red-500 ml-0.5">*</span>}
+          </p>
+          <p className="text-[10px] text-gray-400 text-center">{sublabel}</p>
+          <span className="mt-0.5 px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium">Selecionar PDF</span>
         </div>
       )}
     </div>
@@ -131,17 +129,15 @@ function MultiFileDrop({
         <input id={inputId} type="file" accept=".pdf" multiple className="hidden"
           onChange={e => { Array.from(e.target.files ?? []).forEach(onAdd); e.target.value = ''; }}
         />
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center flex-shrink-0">
-            <FileText className="w-4 h-4 text-[#4A9BAA]" />
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-10 h-10 rounded-full bg-[#4A9BAA]/10 flex items-center justify-center">
+            <FileText className="w-5 h-5 text-[#4A9BAA]" />
           </div>
-          <div className="flex-1 text-left min-w-0">
-            <p className="text-xs font-medium text-gray-700">
-              {files.length > 0 ? '+ Adicionar outro CE Item' : label}
-            </p>
-            <p className="text-[10px] text-gray-400">{sublabel}</p>
-          </div>
-          <span className="px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium flex-shrink-0">Selecionar PDF</span>
+          <p className="text-xs font-medium text-gray-700 text-center">
+            {files.length > 0 ? '+ Adicionar outro CE Item' : label}
+          </p>
+          <p className="text-[10px] text-gray-400 text-center">{sublabel}</p>
+          <span className="mt-0.5 px-3 py-1 bg-[#4A9BAA] text-white rounded-lg text-[10px] font-medium">Selecionar PDF</span>
         </div>
       </div>
     </div>
@@ -338,31 +334,32 @@ export default function AppPage() {
               </div>
             )}
 
-            <div className="mb-5 p-5 bg-blue-50/40 border border-blue-100 rounded-2xl">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
-                CE Mercante <span className="text-red-400">*</span>
-              </p>
-              <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+                  CE Dados <span className="text-red-400">*</span>
+                </p>
                 <FileDrop label="CE Dados Básicos" sublabel="Cabeçalho geral do CE (PDF)" file={ceDadosFile} onFile={setCeDadosFile} required />
-                <div>
-                  <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wide mb-2">CE Item(s) — opcional</p>
-                  <MultiFileDrop
-                    label="CE Item"
-                    sublabel="Detalhes de carga e mercadoria — adicione um por container se necessário"
-                    files={ceItemFiles}
-                    onAdd={f => setCeItemFiles(prev => [...prev, f])}
-                    onRemove={i => setCeItemFiles(prev => prev.filter((_, idx) => idx !== i))}
-                  />
-                </div>
               </div>
-              {ceItemFiles.length === 0 && <p className="text-[10px] text-blue-500 mt-2">CE Item recomendado para análise completa de mercadoria e containers.</p>}
-            </div>
-
-            <div className="mb-6">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
-                Bill of Lading (BL) <span className="text-red-400">*</span>
-              </p>
-              <FileDrop label="Bill of Lading" sublabel="Documento emitido pelo armador (PDF)" file={blFile} onFile={setBlFile} required />
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+                  CE Item(s) <span className="font-normal normal-case text-gray-400">— opcional</span>
+                </p>
+                <MultiFileDrop
+                  label="CE Item"
+                  sublabel="Detalhes de carga — um por container"
+                  files={ceItemFiles}
+                  onAdd={f => setCeItemFiles(prev => [...prev, f])}
+                  onRemove={i => setCeItemFiles(prev => prev.filter((_, idx) => idx !== i))}
+                />
+                {ceItemFiles.length === 0 && <p className="text-[10px] text-blue-500 mt-1.5">Recomendado para análise completa.</p>}
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+                  Bill of Lading <span className="text-red-400">*</span>
+                </p>
+                <FileDrop label="Bill of Lading" sublabel="Documento emitido pelo armador (PDF)" file={blFile} onFile={setBlFile} required />
+              </div>
             </div>
 
             <button
