@@ -50,7 +50,7 @@ function FileDrop({
       }}
       onClick={() => document.getElementById(inputId)?.click()}
       className={[
-        'border-2 border-dashed rounded-2xl p-5 text-center cursor-pointer transition-all select-none',
+        'border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all select-none',
         drag ? 'border-[#4A9BAA] bg-[#f0f9fb]' : '',
         file ? 'border-green-400 bg-green-50' : 'border-gray-200 bg-gray-50 hover:border-[#4A9BAA] hover:bg-[#f0f9fb]',
       ].join(' ')}
