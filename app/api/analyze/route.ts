@@ -28,6 +28,14 @@ TAREFA: Extrair o número do CE Mercante e comparar os campos comparáveis entre
 
 7. NÚMERO DO BL: procurar em TODOS os campos: "B/L No.", "B/L Number", "House Bill of Lading No.", "HBL No.", "Bill of Lading No.", cabeçalho. Usar o número encontrado.
 
+8. NCM: O CE Mercante registra apenas os 4 primeiros dígitos do código NCM (capítulo tarifário). Comparar somente os 4 primeiros dígitos numéricos de ambos os documentos, ignorando pontos e dígitos subsequentes. Ex: CE "8471" vs BL "8471.30.12" → OK. Ex: CE "8471" vs BL "84713012" → OK.
+
+9. NAVIO — PRÉ-CARRIAGE vs OCEÂNICO: O CE Mercante registra sempre o navio que chegou ao porto brasileiro (navio oceânico/principal). O HBL pode conter dois campos distintos: "Pre-Carriage By" (navio feeder/alimentador da origem) e "Ocean Vessel" ou "Vessel" (navio principal). Comparar SOMENTE o campo "Ocean Vessel" / "Vessel" do HBL com o navio do CE. O campo "Pre-Carriage By" do HBL NÃO deve ser usado na comparação e NÃO gera divergência.
+
+10. CAPATAZIA: Deve ser SEMPRE COLLECT, independentemente de qualquer outra condição. Se aparecer como PREPAID ou qualquer variante que não seja COLLECT em qualquer dos documentos → DISCREPANTE imediatamente.
+
+11. NOTIFY PARTY — "SAME AS CONSIGNEE": Se o campo Notify Party do BL contiver expressões como "same as consignee", "idem consignee", "same as above", "conforme consignatário" ou equivalentes, o nome a comparar com o CE Mercante é o nome do Consignatário extraído do próprio BL, não a expressão textual. Aplicar as regras normais de comparação usando esse nome.
+
 ═══ CAMPOS EXCLUÍDOS — NÃO COMPARAR, NÃO INCLUIR NO JSON ═══
 
 Os campos abaixo NÃO devem aparecer no relatório em hipótese alguma:
@@ -85,10 +93,14 @@ Equipamento:
 - Tipo(s) de Container(es)
 - Lacre(s) / Seal(s)
 
-Comercial:
-- Valor do Frete
-- Moeda do Frete
-- Local de Pagamento do Frete
+Comercial (comparar CADA cobrança individualmente — criar UMA linha de comparação por taxa/cobrança):
+- Frete Básico / Ocean Freight: valor e moeda (CE vs BL)
+- THC — Terminal Handling Charge: valor (CE vs BL)
+- Taxa de Emissão / B/L Fee / Documentation Fee: valor (CE vs BL)
+- Capatazia: valor (CE vs BL) — obrigatoriamente COLLECT (regra 10); se PREPAID → DISCREPANTE
+- Forma de Pagamento do Frete Básico: PREPAID ou COLLECT (CE vs BL)
+- Moeda do Frete: (CE vs BL)
+- Para QUALQUER outra taxa ou cobrança presente no CE ou no BL (surcharges, adicional, ISS, etc.), criar uma entrada separada com o nome exato da taxa como "field". Não agrupar nem omitir nenhuma linha de cobrança.
 
 ═══ FORMATO DE SAÍDA ═══
 
