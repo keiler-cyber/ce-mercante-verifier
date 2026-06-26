@@ -21,4 +21,6 @@ export interface AnalysisResult {
   ceNumber: string;
   summary: AnalysisSummary;
   comparisons: FieldComparison[];
+  confiancaLeituraCE?: number; // 0–100: quanto a IA conseguiu ler o CE Mercante
+  confiancaLeituraBL?: number; // 0–100: quanto a IA conseguiu ler o BL
 }

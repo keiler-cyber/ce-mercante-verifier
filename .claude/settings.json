@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "C:\\Users\\keiler\\Documents\\aprendendo claude code\\brasporto-fretes\\src\\lib",
+      "C:\\Users\\keiler\\Documents\\aprendendo claude code\\brasporto-fretes\\src\\app\\api\\extract-request"
+    ]
+  }
+}

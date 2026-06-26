@@ -144,6 +144,22 @@ function MultiFileDrop({
   );
 }
 
+function LeituraBadge({ label, valor }: { label: string; valor?: number }) {
+  if (typeof valor !== "number") return null;
+  const cor = valor >= 85 ? "#15803d" : valor >= 60 ? "#b45309" : "#b91c1c";
+  return (
+    <div className="p-3 rounded-xl bg-gray-50">
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-gray-500">{label}</span>
+        <span className="text-sm font-medium" style={{ color: cor }}>{valor}%</span>
+      </div>
+      <div className="mt-1.5 w-full bg-gray-200 rounded-full h-1.5">
+        <div className="h-1.5 rounded-full" style={{ width: `${Math.min(valor, 100)}%`, background: cor }} />
+      </div>
+    </div>
+  );
+}
+
 function SummaryCard({ result }: { result: AnalysisResult }) {
   const { summary } = result;
   const pct = summary.totalFields > 0 ? Math.round((summary.okCount / summary.totalFields) * 100) : 0;
@@ -173,6 +189,18 @@ function SummaryCard({ result }: { result: AnalysisResult }) {
         <div className={`h-2 rounded-full ${summary.discrepantCount === 0 ? 'bg-green-500' : 'bg-[#4A9BAA]'}`} style={{ width: `${pct}%` }} />
       </div>
       <p className="text-xs text-gray-400 mt-1 text-right">{pct}% de conformidade</p>
+
+      {(typeof result.confiancaLeituraCE === "number" ||
+        typeof result.confiancaLeituraBL === "number") && (
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <p className="text-xs text-gray-500 mb-2">Leitura dos documentos pela IA</p>
+          <div className="grid grid-cols-2 gap-3">
+            <LeituraBadge label="CE Mercante" valor={result.confiancaLeituraCE} />
+            <LeituraBadge label="Bill of Lading" valor={result.confiancaLeituraBL} />
+          </div>
+        </div>
+      )}
+
       {summary.imageQualityAlert && (
         <div className="mt-4 flex gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-xl">
           <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />

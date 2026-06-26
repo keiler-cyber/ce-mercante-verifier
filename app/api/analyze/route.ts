@@ -107,6 +107,8 @@ Comercial (comparar CADA cobrança individualmente — criar UMA linha de compar
 JSON puro, sem markdown, sem backticks:
 {
   "ceNumber": "<número do CE Mercante extraído do documento, ex: '0123456789/2024-001' ou 'Não localizado'>",
+  "confiancaLeituraCE": <0-100: quão completamente você conseguiu LER o CE Mercante; 100 = li tudo com clareza; baixo = partes ilegíveis/cortadas>,
+  "confiancaLeituraBL": <0-100: quão completamente você conseguiu LER o BL; mesma régua>,
   "summary": {
     "totalFields": <número inteiro>,
     "okCount": <número inteiro>,
